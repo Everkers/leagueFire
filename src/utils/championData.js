@@ -10,24 +10,33 @@ module.exports = class ChampionData {
 
 	//get best items for the champion
 	async getItems() {
-		const items = [];
+		const data = [];
+		data.items = [];
 		return new Promise((resolve, reject) => {
-			request(this.url, (response, err, html) => {
-				const $ = cheerio.load(html); //load the html with cheerio module to be able to grab data from the website
-				$('.rb-build-off-item-contain').each( // loop through all the divs with the id of (rb-build-off-item-contain)
-					 (i, elm) => { 
-						const element = $(elm).text(); //get div content
-						if (element.includes('Item Build')) { //check if the div content includes (items build)
-							$(elm)
-								.find('img') //find images from this div
-								.each((i, elm) => { //from each image
-									items.push($(elm).attr('title')); //get attr of title 
-									resolve(items);
-								});
+			try {
+				request(this.url, (response, err, html) => {
+					const $ = cheerio.load(html); //load the html with cheerio module to be able to grab data from the website
+					$('.rb-build-off-item-contain').each(
+						// loop through all the divs with the id of (rb-build-off-item-contain)
+						(i, elm) => {
+							const element = $(elm).text(); //get div content
+							if (element.includes('Item Build')) {
+								//check if the div content includes (items build)
+								$(elm)
+									.find('img') //find images from this div
+									.each((i, elm) => {
+										//from each image
+										data.items.push($(elm).attr('title')); //get attr of title
+									});
+							}
 						}
-					}
-				);
-			});
+					);
+					data.about = $('#item-build > p').text();
+					resolve(data);
+				});
+			} catch (err) {
+				reject(err);
+			}
 		});
 	}
 };
