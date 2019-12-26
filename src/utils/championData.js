@@ -26,12 +26,12 @@ module.exports = class ChampionData {
 									.find('img') //find images from this div
 									.each((i, elm) => {
 										//from each image
-										data.items.push($(elm).attr('title')); //get attr of title
+										data.items.push($(elm).attr('title')); //get title attr of image
 									});
 							}
 						}
 					);
-					data.about = $('#item-build > p').text();
+					data.about = $('#item-build > p').text(); //get guide
 					resolve(data);
 				});
 			} catch (err) {
