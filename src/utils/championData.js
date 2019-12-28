@@ -100,4 +100,27 @@ module.exports = class ChampionData {
 			}
 		});
 	}
+	async getSkillsOrder() {
+		return new Promise((resolve, reject) => {
+			try {
+				request(this.url, (response, err, html) => {
+					const $ = cheerio.load(html);
+					const guide = $('#skill-order > p').text();
+					const skills = [];
+					skills.guide = guide;
+					skills.order = [];
+					$(
+						'#skill-order  > .rb-build-off-item-contain > .rb-build-flow > table > tbody > tr'
+					).each((i, row) => {
+						$('td', row).each((i, elm) => {
+							skills.order.push({ [i + 1]: $(elm).text() });
+						});
+					});
+					resolve(skills);
+				});
+			} catch (err) {
+				reject(err);
+			}
+		});
+	}
 };
