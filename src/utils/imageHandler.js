@@ -6,10 +6,12 @@ module.exports = class ImageHandler {
 		this.id = id;
 	}
 	async uploadImage() {
-		const url = this.url;
-		const id = this.id;
-		const upload = promisify(cloudinary.uploader.upload);
+		//upload the image to cloudinary
+		const url = this.url; //url of the image
+		const id = this.id; //id of the image
+		const upload = promisify(cloudinary.uploader.upload); //convert function to asynchronous function
 		const imageTransform = {
+			//image transofrmations config
 			transformation: [
 				{ aspect_ratio: 0.82, crop: 'crop' },
 				{ height: 1600, crop: 'scale' },
@@ -23,20 +25,22 @@ module.exports = class ImageHandler {
 		};
 		try {
 			const response = await upload(url, {
+				//upload image
 				public_id: id,
 				eager: [imageTransform]
 			});
-			return response;
+			return response; //return the data that we got from cloudinary
 		} catch (err) {
 			console.log(err);
 			throw new Error('error while trying to upload the image');
 		}
 	}
 	async deleteImage(id) {
-		const destroy = promisify(cloudinary.uploader.destroy);
+		//delete image from cloudinary
+		const destroy = promisify(cloudinary.uploader.destroy); //convert function to asynchronous function
 		try {
-			const response = await destroy(id);
-			return response;
+			const response = await destroy(id); //pass the id of the image
+			return response; //return the data that we got from cloudinary
 		} catch (err) {
 			console.log(err);
 		}

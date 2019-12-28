@@ -4,10 +4,19 @@ router.get('/:championName', async (req, res) => {
 	try {
 		const { championName } = req.params;
 		const champion = new championData(championName);
-		const { items, about: guide } = await champion.getItems();
-		res
-			.status(200)
-			.send({ message: 'success', data: { build: { items, guide } } });
+		const runes = await champion.getRunes();
+		const build = await champion.getItems();
+		if (build.items.length < 1) {
+			res.send({ message: 'Champion not found' });
+		}
+		res.status(200).send({
+			message: 'success',
+			data: {
+				champion: championName,
+				build: { guide: build.about, items: build.items },
+				runes: { guide: runes.guide, data: runes.runes }
+			}
+		});
 	} catch (err) {
 		console.log(err);
 		res.status(400).send({ message: 'an error has occurred' });

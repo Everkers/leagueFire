@@ -1,14 +1,15 @@
 const router = require('express').Router();
-const imageHandler = require('../utils/imageHandler');
+const imageHandler = require('../utils/imageHandler'); //import image handler class
 router.get('/', async (req, res) => {
-	// const deleteImage = promisify(cloudinary.uploader.destroy);
 	try {
-		const { url } = req.query;
+		const { url } = req.query; //get url from query object
 		if (url && url.length > 1) {
-			const id = Math.floor(Math.random() * 1000);
-			const handlerImage = new imageHandler(url, id);
-			const response = await handlerImage.uploadImage();
+			//check if the url exists
+			const id = Math.floor(Math.random() * 1000); // random id for the picture
+			const handlerImage = new imageHandler(url, id); // create new instance of the imageHandler class and pass the url and the id of the image
+			const response = await handlerImage.uploadImage(); //upload the image
 			res.status(200).send({
+				//send the url in the response
 				message: 'success',
 				url: response.eager[0].url,
 				id
