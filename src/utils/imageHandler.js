@@ -29,7 +29,7 @@ module.exports = class ImageHandler {
 				public_id: id,
 				eager: [imageTransform]
 			});
-			console.log(response); //return the data that we got from cloudinary
+			return response; //return the data that we got from cloudinary
 		} catch (err) {
 			console.log(err);
 			throw new Error('error while trying to upload the image');
