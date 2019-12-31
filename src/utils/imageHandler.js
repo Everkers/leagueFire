@@ -13,13 +13,13 @@ module.exports = class ImageHandler {
 		const imageTransform = {
 			//image transofrmations config
 			transformation: [
-				{ aspect_ratio: 0.82, crop: 'crop' },
-				{ height: 1600, crop: 'scale' },
+				{ aspect_ratio: 0.67, crop: 'fill' },
+				{ height: 1058, crop: 'fit' },
 				{
-					overlay: 'overlay-photo',
-					flags: 'relative',
-					height: '1.1',
-					width: '1.1'
+					overlay: 'gremilin-clipart',
+					flags: 'ignore_aspect_ratio',
+					height: '1.2',
+					width: '1.2'
 				}
 			]
 		};
@@ -29,7 +29,7 @@ module.exports = class ImageHandler {
 				public_id: id,
 				eager: [imageTransform]
 			});
-			return response; //return the data that we got from cloudinary
+			console.log(response); //return the data that we got from cloudinary
 		} catch (err) {
 			console.log(err);
 			throw new Error('error while trying to upload the image');
