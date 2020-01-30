@@ -4,7 +4,7 @@ const champion = require('./src/controllers/champion')
 const imageUpload = require('./src/controllers/imageUpload')
 const imageDelete = require('./src/controllers/imageDelete')
 const app = express()
-const PORT = process.env.PORT | 5000
+const PORT = process.env.PORT || 5000
 app.use('/champion', champion)
 app.use('/imageUpload', imageUpload)
 app.use('/imageDelete', imageDelete)
